@@ -1,0 +1,147 @@
+"use client";
+import React, { useEffect, useRef, useState } from "react";
+import Navbar from "./Navbar";
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
+import Image from "next/image";
+import axios from "axios";
+import requests from "@/Requests";
+import { CiPlay1 } from "react-icons/ci";
+
+const Main = () => {
+  const [movies, setMovies] = useState([]);
+  const [selectedMovies, setSelectedMovies] = useState(null);
+  const scrollContainer = useRef(null);
+
+  useEffect(() => {
+    axios
+      .get(requests.requestPopular)
+      .then((response) => {
+        // Set movies state with the response data
+        setMovies(response.data.results); // Assuming the movies list is in response.data.results
+      })
+      .catch((error) => {
+        // Handle any potential errors here
+        console.error("Error fetching movies:", error);
+      });
+  }, []);
+
+  console.log(movies);
+
+  const scrollRight = () => {
+    if (scrollContainer.current) {
+      scrollContainer.current.scrollBy({ left: 208, behavior: "smooth" });
+    }
+  };
+
+  const scrollLeft = () => {
+    if (scrollContainer.current) {
+      scrollContainer.current.scrollBy({ left: -208, behavior: "smooth" });
+    }
+  };
+
+  const handleImageClick = (movie) => {
+    setSelectedMovies(movie);
+  };
+
+  return (
+    <main className="w-screen h-screen bg-gray-950">
+      <div className="absolute top-3 text-white z-50">
+        <Navbar />
+      </div>
+      {/* Background Image Box */}
+      <div className="absolute w-screen h-screen top-0 left-0">
+        {selectedMovies && (
+          <Image
+            src={`https://image.tmdb.org/t/p/original${selectedMovies.backdrop_path}`}
+            alt="selected movie"
+            width={1}
+            height={1}
+            sizes="100%"
+            className="w-full h-full animate-pulse object-cover ease-in-out transition-all duration-300 delay-300 transform"
+          />
+        )}
+      </div>
+      {/* Grid Box */}
+      <div className="w-full h-full grid grid-cols-2 z-10 ">
+        {/* Left Box */}
+        <div className="w-2/3 z-10 flex justify-end items-start flex-col pl-10 pb-10 relative">
+          {selectedMovies && (
+            <div className="space-y-3">
+              <h1 className="font-bold text-4xl text-white">
+                {selectedMovies.title}
+              </h1>
+              <p className=" text-white">
+                Release Date:{" "}
+                <span className="font-bold">{selectedMovies.release_date}</span>
+              </p>
+              <p className=" text-white">
+                Rating:{" "}
+                <span className="font-bold">{selectedMovies.vote_average}</span>
+              </p>
+              <p className=" text-white">
+                Total Votes:{" "}
+                <span className="font-bold">{selectedMovies.vote_count}</span>
+              </p>
+              <p className="text-sm text-white">{selectedMovies.overview}</p>
+              <div className="w-full flex py-5 space-x-5">
+                <button className="w-fit py-1 px-3 bg-yellow-500 hover:bg-yellow-600 cursor-pointer text-black font-bold">
+                  Check Detail
+                </button>
+                <button className="w-24 px-2 py-1 border text-white flex justify-between items-center cursor-pointer hover:bg-yellow-600 hover:text-black font-bold">Watch<CiPlay1 /></button>
+              </div>
+            </div>
+          )}
+        </div>
+        {/* Right Box */}
+        <div className="w-full h-full relative z-20">
+          <div className="w-full h-1/2 absolute bottom-0 flex justify-center items-end ">
+            <MdChevronLeft
+              size={40}
+              className="bg-white left-0 cursor-pointer rounded-full absolute opacity-50 hover:opacity-100 z-50 text-black bottom-1/3 transform -translate-y-1/2"
+              onClick={scrollLeft}
+            />
+            <div
+              ref={scrollContainer}
+              className="w-full flex overflow-x-auto pl-8 scrollbar-hide whitespace-nowrap scroll-smooth space-x-6"
+              style={{ minWidth: "100%" }}
+            >
+              {movies.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center text-center cursor-pointer"
+                  onClick={() => handleImageClick(item)}
+                >
+                  <div
+                    className={` ${
+                      selectedMovies === item ? "w-48 h-80" : " w-44 h-72"
+                    } overflow-hidden border-2 rounded-xl relative  transform ease-in-out duration-300`}
+                  >
+                    <Image
+                      src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+                      alt="poster"
+                      width={1}
+                      height={1}
+                      sizes="100%"
+                      className="w-full h-full"
+                    />
+                    {/* <div className="w-full h-24 bg-cover flex flex-wrap overflow-hidden justify-center items-end text-white font-semibold z-10 absolute bottom-0 pb-2 bg-gradient-to-t from-black/80 via-black/50 to-black/10">
+                      {item.title}
+                    </div> */}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <MdChevronRight
+              size={40}
+              className="bg-white right-0 cursor-pointer rounded-full absolute opacity-50 hover:opacity-100 z-50 text-black bottom-1/3 transform -translate-y-1/2"
+              onClick={scrollRight}
+            />
+          </div>
+        </div>
+        <div className="absolute w-full h-full bg-gradient-to-t from-black/90 via-black/60 to-black/5 bottom-0"></div>
+      </div>
+    </main>
+  );
+};
+
+export default Main;
