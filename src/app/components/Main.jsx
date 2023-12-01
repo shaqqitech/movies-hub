@@ -18,12 +18,17 @@ const Main = () => {
       .then((response) => {
         // Set movies state with the response data
         setMovies(response.data.results); // Assuming the movies list is in response.data.results
+
+        // Display the details of the first movie by default if selectedMovies is null
+        if (selectedMovies === null && response.data.results.length > 0) {
+          setSelectedMovies(response.data.results[0]);
+        }
       })
       .catch((error) => {
         // Handle any potential errors here
         console.error("Error fetching movies:", error);
       });
-  }, []);
+  }, [selectedMovies]); // Add selectedMovies to the dependency array
 
   console.log(movies);
 
@@ -62,39 +67,51 @@ const Main = () => {
         )}
       </div>
       {/* Grid Box */}
-      <div className="w-full h-full grid grid-cols-2 z-10 ">
+      <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 z-10 ">
         {/* Left Box */}
-        <div className="w-2/3 z-10 flex justify-end items-start flex-col pl-10 pb-10 relative">
+        <div className="w-2/3 z-10 flex justify-center lg:justify-end items-start flex-col pl-10 pb-10 relative">
           {selectedMovies && (
             <div className="space-y-3">
               <h1 className="font-bold text-4xl text-white">
                 {selectedMovies.title}
               </h1>
-              <p className=" text-white">
-                Release Date:{" "}
-                <span className="font-bold">{selectedMovies.release_date}</span>
+              <div className="flex flow-row w-screen space-x-5">
+                <p className="flex flex-col text-white">
+                  Release Date:{" "}
+                  <span className="font-bold">
+                    {selectedMovies.release_date}
+                  </span>
+                </p>
+                <p className="flex flex-col text-white">
+                  Rating:{" "}
+                  <span className="font-bold">
+                    {selectedMovies.vote_average}
+                  </span>
+                </p>
+                <p className="flex flex-col text-white">
+                  Total Votes:{" "}
+                  <span className="font-bold">{selectedMovies.vote_count}</span>
+                </p>
+              </div>
+              <p className="w-2/3 lg:w-96 text-sm text-white">
+                {selectedMovies.overview.split(" ").slice(0, 30).join(" ")}
+                {selectedMovies.overview.split(" ").length > 30 ? "..." : ""}
               </p>
-              <p className=" text-white">
-                Rating:{" "}
-                <span className="font-bold">{selectedMovies.vote_average}</span>
-              </p>
-              <p className=" text-white">
-                Total Votes:{" "}
-                <span className="font-bold">{selectedMovies.vote_count}</span>
-              </p>
-              <p className="text-sm text-white">{selectedMovies.overview}</p>
               <div className="w-full flex py-5 space-x-5">
                 <button className="w-fit py-1 px-3 bg-yellow-500 hover:bg-yellow-600 cursor-pointer text-black font-bold">
                   Check Detail
                 </button>
-                <button className="w-24 px-2 py-1 border text-white flex justify-between items-center cursor-pointer hover:bg-yellow-600 hover:text-black font-bold">Watch<CiPlay1 /></button>
+                <button className="w-24 px-2 py-1 border text-white flex justify-between items-center cursor-pointer hover:bg-yellow-600 hover:text-black font-bold">
+                  Watch
+                  <CiPlay1 />
+                </button>
               </div>
             </div>
           )}
         </div>
         {/* Right Box */}
         <div className="w-full h-full relative z-20">
-          <div className="w-full h-1/2 absolute bottom-0 flex justify-center items-end ">
+          <div className="w-full h-1/2 absolute bottom-2 flex justify-center items-end ">
             <MdChevronLeft
               size={40}
               className="bg-white left-0 cursor-pointer rounded-full absolute opacity-50 hover:opacity-100 z-50 text-black bottom-1/3 transform -translate-y-1/2"
