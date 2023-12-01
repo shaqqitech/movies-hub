@@ -6,6 +6,7 @@ import Image from "next/image";
 import axios from "axios";
 import requests from "@/Requests";
 import { CiPlay1 } from "react-icons/ci";
+import { mulish } from '../fonts';
 
 const Main = () => {
   const [movies, setMovies] = useState([]);
@@ -69,28 +70,28 @@ const Main = () => {
       {/* Grid Box */}
       <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 z-10 ">
         {/* Left Box */}
-        <div className="w-2/3 z-10 flex justify-center lg:justify-end items-start flex-col pl-10 pb-10 relative">
+        <div className={`w-2/3 z-10 flex justify-center lg:justify-end items-start flex-col pl-10 pb-10 relative ${mulish.className}`}>
           {selectedMovies && (
             <div className="space-y-3">
-              <h1 className="font-bold text-4xl text-white">
+              <h1 className="font-bold text-2xl md:text-3xl lg:text-4xl text-yellow-300">
                 {selectedMovies.title}
               </h1>
               <div className="flex flow-row w-screen space-x-5">
-                <p className="flex flex-col text-white">
+                <p className="flex flex-col text-yellow-500">
                   Release Date:{" "}
-                  <span className="font-bold">
+                  <span className="font-bold text-white">
                     {selectedMovies.release_date}
                   </span>
                 </p>
-                <p className="flex flex-col text-white">
+                <p className="flex flex-col text-yellow-500">
                   Rating:{" "}
-                  <span className="font-bold">
+                  <span className="font-bold text-white">
                     {selectedMovies.vote_average}
                   </span>
                 </p>
-                <p className="flex flex-col text-white">
+                <p className="flex flex-col text-yellow-500">
                   Total Votes:{" "}
-                  <span className="font-bold">{selectedMovies.vote_count}</span>
+                  <span className="font-bold text-white">{selectedMovies.vote_count}</span>
                 </p>
               </div>
               <p className="w-2/3 lg:w-96 text-sm text-white">
