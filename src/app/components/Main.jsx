@@ -6,7 +6,9 @@ import Image from "next/image";
 import axios from "axios";
 import requests from "@/Requests";
 import { CiPlay1 } from "react-icons/ci";
-import { mulish } from '../fonts';
+import { mulish } from "../fonts";
+import Link from "next/link";
+import { FaArrowUp } from "react-icons/fa";
 
 const Main = () => {
   const [movies, setMovies] = useState([]);
@@ -50,7 +52,7 @@ const Main = () => {
   };
 
   return (
-    <main className="w-screen h-screen bg-gray-950">
+    <main className="w-screen h-screen bg-gray-950 relative">
       <div className="absolute top-3 text-white z-50">
         <Navbar />
       </div>
@@ -70,7 +72,9 @@ const Main = () => {
       {/* Grid Box */}
       <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2 z-10 ">
         {/* Left Box */}
-        <div className={`w-2/3 z-10 flex justify-center lg:justify-end items-start flex-col pl-10 pb-10 relative ${mulish.className}`}>
+        <div
+          className={`w-2/3 z-10 flex justify-center lg:justify-end items-start flex-col pl-10 pb-10 relative ${mulish.className}`}
+        >
           {selectedMovies && (
             <div className="space-y-3">
               <h1 className="font-bold text-2xl md:text-3xl lg:text-4xl text-yellow-300">
@@ -91,7 +95,9 @@ const Main = () => {
                 </p>
                 <p className="flex flex-col text-yellow-500">
                   Total Votes:{" "}
-                  <span className="font-bold text-white">{selectedMovies.vote_count}</span>
+                  <span className="font-bold text-white">
+                    {selectedMovies.vote_count}
+                  </span>
                 </p>
               </div>
               <p className="w-2/3 lg:w-96 text-sm text-white">
@@ -112,7 +118,7 @@ const Main = () => {
         </div>
         {/* Right Box */}
         <div className="w-full h-full relative z-20">
-          <div className="w-full h-1/2 absolute bottom-2 flex justify-center items-end ">
+          <div className="w-full h-1/2 absolute bottom-12 flex justify-center items-end ">
             <MdChevronLeft
               size={40}
               className="bg-white left-0 cursor-pointer rounded-full absolute opacity-50 hover:opacity-100 z-50 text-black bottom-1/3 transform -translate-y-1/2"
@@ -158,6 +164,15 @@ const Main = () => {
         </div>
         <div className="absolute w-full h-full bg-gradient-to-t from-black/90 via-black/60 to-black/5 bottom-0"></div>
       </div>
+      <Link
+        href={"/search"}
+        className="w-screen flex justify-center items-center absolute bottom-2 text-white animate-bounce cursor-pointer space-x-1 z-50"
+      >
+        <button className="">Watch More Movies </button>
+        <span>
+          <FaArrowUp />
+        </span>
+      </Link>
     </main>
   );
 };
