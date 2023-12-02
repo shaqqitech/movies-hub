@@ -16,22 +16,28 @@ const Main = () => {
   const scrollContainer = useRef(null);
 
   useEffect(() => {
-    axios
-      .get(requests.requestPopular)
-      .then((response) => {
-        // Set movies state with the response data
-        setMovies(response.data.results); // Assuming the movies list is in response.data.results
-
-        // Display the details of the first movie by default if selectedMovies is null
-        if (selectedMovies === null && response.data.results.length > 0) {
-          setSelectedMovies(response.data.results[0]);
-        }
-      })
-      .catch((error) => {
-        // Handle any potential errors here
-        console.error("Error fetching movies:", error);
-      });
+    try {
+      axios
+        .get(requests.requestPopular)
+        .then((response) => {
+          // Set movies state with the response data
+          setMovies(response.data.results); // Assuming the movies list is in response.data.results
+  
+          // Display the details of the first movie by default if selectedMovies is null
+          if (selectedMovies === null && response.data.results.length > 0) {
+            setSelectedMovies(response.data.results[0]);
+          }
+        })
+        .catch((error) => {
+          // Handle any potential errors here
+          console.error("Error fetching movies:", error);
+        });
+    } catch (error) {
+      // Catch any synchronous errors that occur within the try block
+      console.error("Error within useEffect:", error);
+    }
   }, [selectedMovies]); // Add selectedMovies to the dependency array
+  
 
   console.log(movies);
 
@@ -53,9 +59,7 @@ const Main = () => {
 
   return (
     <main className="w-screen h-screen bg-gray-950 relative">
-      <div className="absolute top-3 text-white z-50">
-        <Navbar />
-      </div>
+
       {/* Background Image Box */}
       <div className="absolute w-screen h-screen top-0 left-0">
         {selectedMovies && (

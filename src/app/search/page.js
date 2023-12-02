@@ -1,75 +1,180 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { key } from "@/Requests";
 import Image from "next/image";
+import BgImage from "../../../public/background.jpg";
+import { IoSearchSharp } from "react-icons/io5";
 
 const MovieSearch = () => {
-    const [query, setQuery] = useState("");
-    const [movie, setMovie] = useState(null);
-    const [cast, setCast] = useState([]);
-  
-    const searchMovie = async () => {
-      try {
-        const response = await axios.get(
-          `https://api.themoviedb.org/3/search/movie?api_key=${key}&query=${query}`
-        );
-        if (response.data.results && response.data.results.length > 0) {
-          setMovie(response.data.results[0]); // For simplicity, displaying details of the first result
-          // Call function to fetch cast details
-          fetchMovieCast(response.data.results[0].id);
-        } else {
-          setMovie(null); // Reset movie details if no results found
-          setCast([]); // Reset cast details if no results found
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+  const [query, setQuery] = useState("");
+  const [movie, setMovie] = useState(null);
+  const [suggestions, setSuggestions] = useState([]);
+  const [similarMovies, setSimilarMovies] = useState([]);
+  // const [cast, setCast] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  const handleInputChange = async (e) => {
+    setQuery(e.target.value);
+    setIsOpen(true);
+
+    try {
+      const response = await axios.get(
+        `https://api.themoviedb.org/3/search/movie?api_key=${key}&query=${e.target.value}`
+      );
+      if (response.data.results) {
+        setSuggestions(response.data.results);
+      } else {
+        setSuggestions([]);
       }
-    };
-  
-    const fetchMovieCast = async (movieId) => {
-      try {
-        const castResponse = await axios.get(
-          `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${key}`
-        );
-        if (castResponse.data && castResponse.data.cast.length > 0) {
-          setCast(castResponse.data.cast);
-        } else {
-          setCast([]);
-        }
-      } catch (error) {
-        console.error("Error fetching cast data:", error);
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
+  };
+
+  const handleSuggestionClick = async (movieId) => {
+    try {
+      const movieResponse = await axios.get(
+        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${key}`
+      );
+      if (movieResponse.data) {
+        setMovie(movieResponse.data);
+        // Fetch cast details for selected movie
+        fetchMovieCast(movieId);
+        setIsOpen(false); // Close suggestions on movie selection
       }
-    };
-  
-    const handleInputChange = (e) => {
-      setQuery(e.target.value);
-    };
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      searchMovie();
+    } catch (error) {
+      console.error("Error fetching movie details:", error);
+    }
+  };
+
+  const fetchSimilarMovies = async (movieId) => {
+    try {
+      const similarResponse = await axios.get(
+        `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${key}`
+      );
+      if (similarResponse.data.results) {
+        setSimilarMovies(similarResponse.data.results.slice(0, 6)); // Limiting to first 6 similar movies
+      } else {
+        setSimilarMovies([]);
+      }
+    } catch (error) {
+      console.error("Error fetching similar movies:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (movie) {
+      fetchSimilarMovies(movie.id);
+    }
+  }, [movie]);
+
+  const searchMovie = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.themoviedb.org/3/search/movie?api_key=${key}&query=${query}`
+      );
+      if (response.data.results && response.data.results.length > 0) {
+        setMovie(response.data.results[0]); // For simplicity, displaying details of the first result
+        // Call function to fetch cast details
+        // fetchMovieCast(response.data.results[0].id);
+      } else {
+        setMovie(null); // Reset movie details if no results found
+        setCast([]); // Reset cast details if no results found
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // const fetchMovieCast = async (movieId) => {
+  //   try {
+  //     const castResponse = await axios.get(
+  //       `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${key}`
+  //     );
+  //     if (castResponse.data && castResponse.data.cast.length > 0) {
+  //       setCast(castResponse.data.cast);
+  //     } else {
+  //       setCast([]);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching cast data:", error);
+  //   }
+  // };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
     };
 
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    searchMovie();
+  };
+
+  const handleOnClick = () => {
+    setIsOpen(true);
+  };
+
   return (
-    <main className="container relative">
-      <form onSubmit={handleSubmit} className="w-screen h-24 flex justify-center items-center">
-        <input
-          type="text"
-          placeholder="Search for a movie..."
-          value={query}
-          onChange={handleInputChange}
-          className="bg-gray-900 text-white font-semibold px-4 py-2 rounded-full focus:outline-none focus:ring-4"
-        />
-        <button
-          type="submit"
-          className="ml-1 bg-blue-500 text-white px-4 py-2 rounded-full"
-        >
-          Search
-        </button>
+    <main className="container relative w-screen">
+      <form
+        onSubmit={handleSubmit}
+        className="w-screen h-48 md:h-24 flex justify-center items-center z-50"
+        ref={menuRef}
+      >
+        {!isOpen && (
+          <div
+            className="text-white text-2xl border-2 p-1 rounded-full cursor-pointer z-10"
+            onClick={handleOnClick}
+          >
+            <IoSearchSharp />
+          </div>
+        )}
+
+        {isOpen && (
+          <div className="mt-10 mr-4 text-white p-4 rounded-md flex space-x-2 justify-center items-center z-10">
+            <input
+              type="text"
+              placeholder="Search for a movie..."
+              value={query}
+              onChange={handleInputChange}
+              className="bg-gray-900 text-white font-semibold px-4 py-2 rounded-full focus:outline-none ring-2 focus:ring-4 ring-yellow-500 mb-2"
+            />
+            <button
+              type="submit"
+              className="bg-yellow-500 text-black font-semibold px-4 py-2 rounded-full"
+            >
+              Search
+            </button>
+          </div>
+        )}
+        {isOpen && suggestions.length > 0 && (
+          <div className="w-1/3 mt-4 bg-yellow-500 text-black font-semibold rounded-md p-2 absolute top-20 max-h-40 overflow-y-auto z-20">
+            {suggestions.map((suggest) => (
+              <div
+                key={suggest.id}
+                onClick={() => handleSuggestionClick(suggest.id)}
+                className="cursor-pointer p-2 hover:bg-gray-200"
+              >
+                {suggest.title}
+              </div>
+            ))}
+          </div>
+        )}
       </form>
       {movie ? (
-        <div className="w-screen h-screen p-20 flex justify-start items-start flex-col space-y-4">
+        <div className="w-screen h-screen absolute top-0 left-0 px-10 py-32 md:px-20 lg:py-40 flex justify-start items-start flex-col ">
           <div className="absolute top-0 left-0 w-screen h-screen -z-50">
             <Image
               src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
@@ -77,44 +182,82 @@ const MovieSearch = () => {
               width={1}
               height={1}
               sizes="100%"
-              className="w-full h-full object-cover"
+              className="w-full h-full"
             />
           </div>
-          <h2 className="text-3xl lg:text-4xl text-white font-bold">{movie.title}</h2>
-          <div className="flex flow-row w-screen space-x-5">
-                <p className="flex flex-col text-yellow-500">
-                  Release Date:{" "}
-                  <span className="font-bold text-white">
-                    {movie.release_date}
-                  </span>
-                </p>
-                <p className="flex flex-col text-yellow-500">
-                  Rating:{" "}
-                  <span className="font-bold text-white">
-                    {movie.vote_average}
-                  </span>
-                </p>
-                <p className="flex flex-col text-yellow-500">
-                  Total Votes:{" "}
-                  <span className="font-bold text-white">
-                    {movie.vote_count}
-                  </span>
-                </p>
+          <div className="space-y-4 w-5/6">
+            <h2 className="text-3xl lg:text-4xl text-white font-bold">
+              {movie.title}
+            </h2>
+            <div className="flex flow-row w-screen space-x-5">
+              <p className="flex flex-col text-yellow-500">
+                Release Date:{" "}
+                <span className="font-bold text-white">
+                  {movie.release_date}
+                </span>
+              </p>
+              <p className="flex flex-col text-yellow-500">
+                Rating:{" "}
+                <span className="font-bold text-white">
+                  {movie.vote_average}
+                </span>
+              </p>
+              <p className="flex flex-col text-yellow-500">
+                Total Votes:{" "}
+                <span className="font-bold text-white">{movie.vote_count}</span>
+              </p>
+              <p className="flex flex-col text-yellow-500">
+                Runtime:{" "}
+                <span className="font-bold text-white">
+                  {movie.runtime ? `${movie.runtime} mins` : "N/A"}
+                </span>
+              </p>
+              <p className="flex flex-col text-yellow-500">
+                Genre:{" "}
+                <span className="font-bold text-white">
+                  {movie.genres
+                    ? movie.genres.map((genre) => genre.name).join(", ")
+                    : "N/A"}
+                </span>
+              </p>
+              {/* Add more fields as needed */}
+            </div>
+            <p className="w-full lg:w-1/2 text-white">{movie.overview}</p>
+            <div className="text-white mt pt-5 z-20">
+              <h3 className="text-2xl font-bold mb-2">Similar Movies:</h3>
+              <div className="flex overflow-x-auto space-x-4">
+                {similarMovies.map((similarMovie) => (
+                  <div key={similarMovie.id} className="w-24">
+                    <Image
+                      src={`https://image.tmdb.org/t/p/w200${similarMovie.poster_path}`}
+                      alt={similarMovie.title}
+                      width={200}
+                      height={300}
+                      className="rounded-lg"
+                    />
+                  </div>
+                ))}
               </div>
-          <p className="w-full lg:w-1/2 text-white">{movie.overview}</p>
-          <div className="text-white">
+            </div>
+          </div>
+          {/* <div className="text-white">
             <h3 className="text-2xl font-bold mb-2">Cast:</h3>
             <ul>
               {cast.map((actor) => (
                 <li key={actor.id}>{actor.name}</li>
               ))}
             </ul>
-          </div>
+          </div> */}
+
           <div className="absolute top-0 left-0 w-screen h-screen -z-40 bg-black/50"></div>
         </div>
-          ) : (
-            <div className="w-screen h-screen absolute top-0 left-0 -z-10 flex justify-center items-center text-4xl bg-gray-800 text-white">Search A movie </div>
-          )}
+      ) : (
+        // Null Div
+        <div className="w-screen h-screen absolute top-0 left-0 -z-10 flex justify-center items-center text-4xl bg-gray-800 text-white">
+          <Image src={BgImage} alt="bg image" className="w-full h-full -z-10" />
+          <div className="absolute w-screen h-screen z-10 top-0 left-0 bg-black/80"></div>
+        </div>
+      )}
     </main>
   );
 };
