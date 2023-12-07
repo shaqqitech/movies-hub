@@ -9,6 +9,7 @@ import { mulish } from "../fonts";
 import Link from "next/link";
 import { FaArrowUp } from "react-icons/fa";
 
+
 const Main = () => {
   const [movies, setMovies] = useState([]);
   const [selectedMovies, setSelectedMovies] = useState(null);
@@ -57,7 +58,8 @@ const Main = () => {
   };
 
   return (
-    <main className="w-screen h-screen bg-gray-950 relative">
+    <main className="w-screen h-screen bg-transparent relative">
+
 
       {/* Background Image Box */}
       <div className="absolute w-screen h-screen top-0 left-0">
@@ -165,7 +167,7 @@ const Main = () => {
         href={"/search"}
         className="w-screen flex justify-center items-center absolute bottom-2 text-white animate-bounce cursor-pointer space-x-1 z-50"
       >
-        <button className="">Watch More Movies </button>
+        <button className="">Search Movies </button>
         <span>
           <FaArrowUp />
         </span>
