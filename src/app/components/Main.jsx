@@ -97,12 +97,6 @@ const Main = () => {
                     {selectedMovies.vote_average}
                   </span>
                 </p>
-                <p className="flex flex-col text-yellow-500">
-                  Total Votes:{" "}
-                  <span className="font-bold text-white">
-                    {selectedMovies.vote_count}
-                  </span>
-                </p>
               </div>
               <p className="w-2/3 lg:w-96 text-sm text-white">
                 {selectedMovies.overview.split(" ").slice(0, 30).join(" ")}
