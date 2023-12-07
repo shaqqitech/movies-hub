@@ -160,7 +160,7 @@ const MovieSearch = () => {
           </div>
         )}
         {isOpen && suggestions.length > 0 && (
-          <div className="w-1/3 mt-4 bg-yellow-500 text-black font-semibold rounded-md p-2 absolute top-20 max-h-40 overflow-y-auto z-20">
+          <div className="w-3/4 md:w-2/4 lg:w-1/4 bg-yellow-500 text-black font-semibold rounded-md p-2 absolute top-36 md:top-24 max-h-40 overflow-y-auto z-20">
             {suggestions.map((suggest) => (
               <div
                 key={suggest.id}
@@ -174,7 +174,7 @@ const MovieSearch = () => {
         )}
       </form>
       {movie ? (
-        <div className="w-screen h-screen absolute top-0 left-0 px-10 py-32 md:px-20 lg:py-40 flex justify-start items-start flex-col ">
+        <div className="w-screen h-screen absolute top-0 left-0 px-4 lg:px-10 py-32 md:px-20 lg:py-40 flex justify-start items-start flex-col ">
           <div className="absolute top-0 left-0 w-screen h-screen -z-50">
             <Image
               src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
@@ -185,58 +185,76 @@ const MovieSearch = () => {
               className="w-full h-full"
             />
           </div>
-          <div className="space-y-4 w-5/6">
-            <h2 className="text-3xl lg:text-4xl text-white font-bold">
-              {movie.title}
-            </h2>
-            <div className="flex flow-row w-screen space-x-5">
-              <p className="flex flex-col text-yellow-500">
-                Release Date:{" "}
-                <span className="font-bold text-white">
-                  {movie.release_date}
-                </span>
-              </p>
-              <p className="flex flex-col text-yellow-500">
-                Rating:{" "}
-                <span className="font-bold text-white">
-                  {movie.vote_average}
-                </span>
-              </p>
-              <p className="flex flex-col text-yellow-500">
-                Total Votes:{" "}
-                <span className="font-bold text-white">{movie.vote_count}</span>
-              </p>
-              <p className="flex flex-col text-yellow-500">
-                Runtime:{" "}
-                <span className="font-bold text-white">
-                  {movie.runtime ? `${movie.runtime} mins` : "N/A"}
-                </span>
-              </p>
-              <p className="flex flex-col text-yellow-500">
-                Genre:{" "}
-                <span className="font-bold text-white">
-                  {movie.genres
-                    ? movie.genres.map((genre) => genre.name).join(", ")
-                    : "N/A"}
-                </span>
-              </p>
-              {/* Add more fields as needed */}
+          <div className="w-full h-full flex-col lg:flex-row flex lg:space-x-5 space-y-5 md:space-y-8">
+            <div className="w-32 h-60 md:w-36 md:h-72 lg:w-full lg:h-full rounded-xl shadow-xl">
+              <Image
+                src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                alt="selected movie"
+                width={1}
+                height={1}
+                sizes="100%"
+                className="w-full h-full rounded-xl shadow-lg"
+              />
             </div>
-            <p className="w-full lg:w-1/2 text-white">{movie.overview}</p>
-            <div className="text-white mt pt-5 z-20">
-              <h3 className="text-2xl font-bold mb-2">Similar Movies:</h3>
-              <div className="flex overflow-x-auto space-x-4">
-                {similarMovies.map((similarMovie) => (
-                  <div key={similarMovie.id} className="w-24">
-                    <Image
-                      src={`https://image.tmdb.org/t/p/w200${similarMovie.poster_path}`}
-                      alt={similarMovie.title}
-                      width={200}
-                      height={300}
-                      className="rounded-lg"
-                    />
-                  </div>
-                ))}
+
+            <div className="space-y-4 w-full lg:w-5/6">
+              <h2 className="text-3xl lg:text-4xl text-white font-bold">
+                {movie.title}
+              </h2>
+              <div className="flex flow-row w-screen space-x-5">
+                <p className="flex flex-col text-yellow-500">
+                  Release Date:{" "}
+                  <span className="font-bold text-white">
+                    {movie.release_date}
+                  </span>
+                </p>
+                <p className="flex flex-col text-yellow-500">
+                  Rating:{" "}
+                  <span className="font-bold text-white">
+                    {movie.vote_average}
+                  </span>
+                </p>
+                <p className="flex flex-col text-yellow-500">
+                  Total Votes:{" "}
+                  <span className="font-bold text-white">
+                    {movie.vote_count}
+                  </span>
+                </p>
+                <p className="flex flex-col text-yellow-500">
+                  Runtime:{" "}
+                  <span className="font-bold text-white">
+                    {movie.runtime ? `${movie.runtime} mins` : "N/A"}
+                  </span>
+                </p>
+                <p className="flex flex-col text-yellow-500">
+                  Genre:{" "}
+                  <span className="font-bold text-white">
+                    {movie.genres
+                      ? movie.genres.map((genre) => genre.name).join(", ")
+                      : "N/A"}
+                  </span>
+                </p>
+                {/* Add more fields as needed */}
+              </div>
+              <p className="w-full lg:w-1/2 text-white text-sm">
+                {movie.overview.split(" ").slice(0, 30).join(" ")}
+                {movie.overview.split(" ").length > 30 ? "..." : ""}
+                </p>
+              <div className="text-white mt pt-5 z-20">
+                <h3 className="text-2xl font-bold mb-2">Similar Movies:</h3>
+                <div className="flex overflow-x-auto space-x-4">
+                  {similarMovies.map((similarMovie) => (
+                    <div key={similarMovie.id} className="w-24">
+                      <Image
+                        src={`https://image.tmdb.org/t/p/w200${similarMovie.poster_path}`}
+                        alt={similarMovie.title}
+                        width={200}
+                        height={300}
+                        className="rounded-lg"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
