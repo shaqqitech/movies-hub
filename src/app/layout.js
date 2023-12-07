@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.className} scrollbar-hide`}>
-      <div className="absolute top-3 text-white z-50">
+      <div className="absolute top-3 text-white z-30">
         <Navbar />
       </div>
         {children}

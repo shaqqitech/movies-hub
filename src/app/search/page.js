@@ -64,6 +64,20 @@ const MovieSearch = () => {
     }
   };
 
+  const handleSimilarMovieClick = async (movieId) => {
+    try {
+      const movieResponse = await axios.get(
+        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${key}`
+      );
+      if (movieResponse.data) {
+        setMovie(movieResponse.data);
+        setIsOpen(false); // Close suggestions on movie selection
+      }
+    } catch (error) {
+      console.error("Error fetching similar movie details:", error);
+    }
+  };
+
   useEffect(() => {
     if (movie) {
       fetchSimilarMovies(movie.id);
@@ -135,7 +149,7 @@ const MovieSearch = () => {
       >
         {!isOpen && (
           <div
-            className="text-white text-2xl border-2 p-1 rounded-full cursor-pointer z-10"
+            className="text-white text-2xl border-2 p-1 rounded-full cursor-pointer z-50"
             onClick={handleOnClick}
           >
             <IoSearchSharp />
@@ -143,7 +157,7 @@ const MovieSearch = () => {
         )}
 
         {isOpen && (
-          <div className="mt-10 mr-4 text-white p-4 rounded-md flex space-x-2 justify-center items-center z-10">
+          <div className="mt-10 mr-4 text-white p-4 rounded-md flex space-x-2 justify-center items-center z-50">
             <input
               type="text"
               placeholder="Search for a movie..."
@@ -198,7 +212,7 @@ const MovieSearch = () => {
             </div>
 
             <div className="space-y-4 w-full lg:w-5/6">
-              <h2 className="text-3xl lg:text-4xl text-white font-bold">
+              <h2 className="text-2xl lg:text-4xl text-white font-bold">
                 {movie.title}
               </h2>
               <div className="flex flow-row w-screen space-x-5">
@@ -212,12 +226,6 @@ const MovieSearch = () => {
                   Rating:{" "}
                   <span className="font-bold text-white">
                     {movie.vote_average}
-                  </span>
-                </p>
-                <p className="flex flex-col text-yellow-500">
-                  Total Votes:{" "}
-                  <span className="font-bold text-white">
-                    {movie.vote_count}
                   </span>
                 </p>
                 <p className="flex flex-col text-yellow-500">
@@ -239,12 +247,16 @@ const MovieSearch = () => {
               <p className="w-full lg:w-1/2 text-white text-sm">
                 {movie.overview.split(" ").slice(0, 30).join(" ")}
                 {movie.overview.split(" ").length > 30 ? "..." : ""}
-                </p>
+              </p>
               <div className="text-white mt pt-5 z-20">
                 <h3 className="text-2xl font-bold mb-2">Similar Movies:</h3>
                 <div className="flex overflow-x-auto space-x-4">
                   {similarMovies.map((similarMovie) => (
-                    <div key={similarMovie.id} className="w-24">
+                    <div
+                      key={similarMovie.id}
+                      className="w-24 cursor-pointer"
+                      onClick={() => handleSimilarMovieClick(similarMovie.id)}
+                    >
                       <Image
                         src={`https://image.tmdb.org/t/p/w200${similarMovie.poster_path}`}
                         alt={similarMovie.title}
