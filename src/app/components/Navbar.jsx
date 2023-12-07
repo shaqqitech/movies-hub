@@ -44,10 +44,10 @@ const Navbar = () => {
                   ref={menuRef}
                   className='absolute top-8 right-3 w-fit border-2 py-2 px-3 text-sm font-semibold rounded-lg space-y-3 bg-white text-black'
                 >
-                  <li>Home</li>
-                  <li>About</li>
-                  <li>Contact</li>
-                  <li>Feedback</li>
+                  <Link href={'/'}>Home</Link>
+                  <Link href={'/'}>About</Link>
+                  <Link href={'/'}>Contact</Link>
+                  <Link href={'/'}>Feedback</Link>
                 </ul>
               )}
             </p>

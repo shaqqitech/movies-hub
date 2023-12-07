@@ -38,7 +38,7 @@ const Main = () => {
   }, [selectedMovies]); // Add selectedMovies to the dependency array
   
 
-  console.log(movies);
+  // console.log(movies);
 
   const scrollRight = () => {
     if (scrollContainer.current) {
@@ -80,7 +80,7 @@ const Main = () => {
         >
           {selectedMovies && (
             <div className="space-y-3">
-              <h1 className="font-bold text-2xl md:text-3xl lg:text-4xl text-yellow-300">
+              <h1 className="font-bold text-2xl md:text-3xl lg:text-5xl text-yellow-300">
                 {selectedMovies.title}
               </h1>
               <div className="flex flow-row w-screen space-x-5">
