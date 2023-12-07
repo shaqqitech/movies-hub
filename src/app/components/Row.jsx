@@ -3,7 +3,6 @@ import axios from "axios";
 import Image from "next/image";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import React, { useEffect, useRef, useState } from "react";
-import Movie from "./Movie";
 import bgImage from "../../../public/background.jpg";
 
 const Row = ({ title, fetchURL, rowID }) => {
@@ -61,7 +60,21 @@ const Row = ({ title, fetchURL, rowID }) => {
             style={{ minWidth: "100%" }}
           >
             {movies.map((item, id) => {
-              return <Movie item={item} key={id} />;
+              return (
+                <div className="w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] inline-block relative p-2 z-30" key={id}>
+                  <div className="w-44 h-72 overflow-hidden border-2 rounded-xl">
+                    {/* Movie Poster Image */}
+                    <Image
+                      src={`https://image.tmdb.org/t/p/original${item.poster_path}`}
+                      alt={item.title}
+                      width={1}
+                      height={1}
+                      sizes="100%"
+                      className="w-full h-full cursor-pointer"
+                    />
+                  </div>
+                </div>
+              );
             })}
           </div>
           <MdChevronRight
