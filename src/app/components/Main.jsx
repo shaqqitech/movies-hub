@@ -99,8 +99,8 @@ const Main = () => {
                 </p>
               </div>
               <p className="w-2/3 lg:w-96 text-sm text-white">
-                {selectedMovies.overview.split(" ").slice(0, 30).join(" ")}
-                {selectedMovies.overview.split(" ").length > 30 ? "..." : ""}
+                {selectedMovies.overview.split(" ").slice(0, 20).join(" ")}
+                {selectedMovies.overview.split(" ").length > 20 ? "..." : ""}
               </p>
               <div className="w-full flex py-5 space-x-5">
                 <button className="w-fit py-1 px-3 bg-yellow-500 hover:bg-yellow-600 cursor-pointer text-black font-bold">
