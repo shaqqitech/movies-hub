@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import Navbar from "./Navbar";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import Image from "next/image";
 import axios from "axios";
