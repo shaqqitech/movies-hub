@@ -7,6 +7,7 @@ import { mulish } from "../fonts";
 import Spinner from "../components/Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { remove } from "@/store/cartSlice";
+import BgImage from "../../../public/background.jpg";
 
 const Data = ({ data, title }) => {
   const [movies, setMovies] = useState([]);
@@ -52,7 +53,11 @@ const Data = ({ data, title }) => {
   }, []);
 
   return (
-    <main className="w-screen min-h-screen bg-black px-10 py-28">
+    <main className="w-screen min-h-screen  px-10 py-28 relative">
+      <div className="absolute top-0 left-0 w-screen h-screen -z-20">
+        <Image src={BgImage} alt="bg image" className="w-full h-full" />
+        <div className="absolute w-screen h-screen top-0 left-0 bg-black/80"></div>
+      </div>
       {loading ? (
         <Spinner />
       ) : (
@@ -66,7 +71,9 @@ const Data = ({ data, title }) => {
             {products.length === 0 ? (
               <div className="w-full h-72 grid place-content-center text-center text-white">
                 <div className="p-5 space-y-7">
-                  <p className="font-bold text-3xl text-yellow-500">No Favorite Found</p>
+                  <p className="font-bold text-3xl text-yellow-500">
+                    No Favorite Found
+                  </p>
                   <p className="text-lg w-80">
                     Please Click on the Menubar and Add Some Movies
                   </p>
@@ -91,9 +98,9 @@ const Data = ({ data, title }) => {
                         <button
                           className="w-3/4 px-2 py-1 border-2 bg-yellow-400 hover:bg-yellow-600 rounded-xl font-semibold text-sm "
                           onClick={() => removeFromCart(item.id)}
-                        //   onClick={() => addToCart(item)}
+                          //   onClick={() => addToCart(item)}
                         >
-                            Remove
+                          Remove
                         </button>
                         <span className="text-red-600 h-full text-2xl cursor-pointer">
                           <FaHeart />

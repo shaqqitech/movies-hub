@@ -4,6 +4,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { RiMenu3Line } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
+import { FaHeart } from "react-icons/fa6";
+import { IoSearchSharp } from "react-icons/io5";
 import { mulish } from "../fonts";
 import { useMediaQuery } from "react-responsive";
 
@@ -42,12 +44,20 @@ const Navbar = () => {
       </Link>
       {/* Menus Tabs */}
       <div className="flex space-x-5 text-xl">
+        {/* Search Logo */}
+      <Link href={'/search'} className="cursor-pointer hover:text-yellow-500">
+          <IoSearchSharp />
+        </Link>
+        {/* Favorite Movies Logo */}
+        <Link href={'/favorites'} className="cursor-pointer hover:text-red-600">
+          <FaHeart />
+        </Link>
         {/* Profile Logo */}
-        <p className="cursor-pointer">
+        <p className="cursor-pointer hover:text-yellow-500">
           <IoPersonCircleSharp />
         </p>
         {/* Menubar */}
-        <p className="cursor-pointer relative" onClick={handleOnClick}>
+        <p className="cursor-pointer relative hover:text-yellow-500" onClick={handleOnClick}>
           {isOpen ? <RxCross2 /> : <RiMenu3Line />}
           {isOpen && (
             <ul
@@ -58,7 +68,6 @@ const Navbar = () => {
               <Link href={"/top-rated"} className="hover:text-yellow-700">Top Rated</Link>
               <Link href={"/trending"} className="hover:text-yellow-700">Trending</Link>
               <Link href={"/upcoming"} className="hover:text-yellow-700">Up Coming</Link>
-              <Link href={"/favorites"} className="hover:text-yellow-700">Favorites</Link>
             </ul>
           )}
         </p>

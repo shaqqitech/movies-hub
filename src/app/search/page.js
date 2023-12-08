@@ -6,6 +6,9 @@ import Image from "next/image";
 import BgImage from "../../../public/background.jpg";
 import { IoSearchSharp } from "react-icons/io5";
 import Spinner from "../components/Spinner";
+import { FaHeart, FaRegHeart } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
+import { add } from "@/store/cartSlice";
 
 const MovieSearch = () => {
   const [query, setQuery] = useState("");
@@ -18,6 +21,19 @@ const MovieSearch = () => {
   const [loadingMovieDetails, setLoadingMovieDetails] = useState(false);
   const [loadingSimilarMovies, setLoadingSimilarMovies] = useState(false);
   const menuRef = useRef(null);
+
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+
+  const isItemInCart = (itemId) => {
+    return cart.some((cartItem) => cartItem.id === itemId);
+  };
+
+  const addToCart = (item) => {
+    if (!isItemInCart(item.id)) {
+      dispatch(add(item));
+    }
+  };
 
   useEffect(() => {
     // Simulate a delay to represent loading data
@@ -280,6 +296,17 @@ const MovieSearch = () => {
                         {movie.overview.split(" ").slice(0, 30).join(" ")}
                         {movie.overview.split(" ").length > 30 ? "..." : ""}
                       </p>
+                      <p className="w-full lg:w-1/2 text-white text-sm flex items-center space-x-3">
+                        <span>Add to Fav</span>{" "}
+                        {isItemInCart(movie?.id) ? (
+                          <FaHeart className="cursor-pointer text-red-500" />
+                        ) : (
+                          <FaRegHeart
+                            className="cursor-pointer"
+                            onClick={() => addToCart(movie)}
+                          />
+                        )}
+                      </p>
                       <div className="text-white mt pt-5 z-20">
                         <h3 className="text-2xl font-bold mb-2">
                           Similar Movies:
@@ -324,16 +351,22 @@ const MovieSearch = () => {
               </div>
             ) : (
               // Null Div
-              <div className="w-screen h-screen absolute top-0 left-0 -z-10 flex justify-center items-center text-4xl bg-gray-800 text-white">
+              <div className="w-screen h-screen absolute top-0 left-0 -z-10 flex justify-center items-center text-4xl text-white">
                 <Image
                   src={BgImage}
                   alt="bg image"
                   className="w-full h-full -z-10"
                 />
                 <div className="absolute w-screen h-screen flex justify-center items-start text-center space-y-5 flex-col z-10 top-0 left-0 bg-black/80">
-                  <h1 className="w-full text-center text-2xl md:text-4xl text-yellow-500">Oh No!!</h1>
-                  <h2 className="w-full text-center text-2xl md:text-3xl text-yellow-500">Nothing to see here??</h2>
-                  <p className="w-full text-center text-xl">Click on search icon and search a Movie.</p>
+                  <h1 className="w-full text-center text-2xl md:text-4xl text-yellow-500">
+                    Oh No!!
+                  </h1>
+                  <h2 className="w-full text-center text-2xl md:text-3xl text-yellow-500">
+                    Nothing to see here??
+                  </h2>
+                  <p className="w-full text-center text-xl">
+                    Click on search icon and search a Movie.
+                  </p>
                 </div>
               </div>
             )}
