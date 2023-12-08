@@ -52,7 +52,7 @@ const Navbar = () => {
           {isOpen && (
             <ul
               ref={menuRef}
-              className="absolute top-8 right-3 w-fit border-2 py-2 px-3 text-sm font-semibold rounded-lg space-y-3 bg-white text-black"
+              className="absolute top-8 right-3 w-fit border-2 py-2 px-3 text-sm font-semibold rounded-lg space-y-3 bg-white text-black flex flex-col"
             >
               <Link href={"/"}>Home</Link>
               <Link href={"/"}>About</Link>

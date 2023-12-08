@@ -183,7 +183,7 @@ const MovieSearch = () => {
             )}
 
             {isOpen && (
-              <div className="mt-5 mr-4 text-white p-4 rounded-md flex flex-col md:flex-row space-x-2 justify-center items-center z-50">
+              <div className="mt-10 mr-4 text-white p-4 rounded-md flex flex-col lg:flex-row space-x-2 justify-center items-center z-50">
                 <input
                   type="text"
                   placeholder="Search for a movie..."
@@ -330,7 +330,11 @@ const MovieSearch = () => {
                   alt="bg image"
                   className="w-full h-full -z-10"
                 />
-                <div className="absolute w-screen h-screen z-10 top-0 left-0 bg-black/80"></div>
+                <div className="absolute w-screen h-screen flex justify-center items-start text-center space-y-5 flex-col z-10 top-0 left-0 bg-black/80">
+                  <h1 className="w-full text-center text-2xl md:text-4xl text-yellow-500">Oh No!!</h1>
+                  <h2 className="w-full text-center text-2xl md:text-3xl text-yellow-500">Nothing to see here??</h2>
+                  <p className="w-full text-center text-xl">Click on search icon and search a Movie.</p>
+                </div>
               </div>
             )}
           </div>
