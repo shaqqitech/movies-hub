@@ -58,6 +58,7 @@ const Navbar = () => {
               <Link href={"/top-rated"} className="hover:text-yellow-700">Top Rated</Link>
               <Link href={"/trending"} className="hover:text-yellow-700">Trending</Link>
               <Link href={"/upcoming"} className="hover:text-yellow-700">Up Coming</Link>
+              <Link href={"/favorites"} className="hover:text-yellow-700">Favorites</Link>
             </ul>
           )}
         </p>

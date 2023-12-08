@@ -5,10 +5,25 @@ import React, { useEffect, useState } from "react";
 import { FaRegHeart, FaHeart } from "react-icons/fa6";
 import Spinner from "./Spinner";
 import { mulish } from "../fonts";
+import { useDispatch, useSelector } from "react-redux";
+import { add } from "@/store/cartSlice";
 
 const Data = ({ data, title }) => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+
+  const isItemInCart = (itemId) => {
+    return cart.some((cartItem) => cartItem.id === itemId);
+  };
+
+  const addToCart = (item) => {
+    if (!isItemInCart(item.id)) {
+      dispatch(add(item));
+    }
+  };
 
   useEffect(() => {
     // Simulate a delay to represent loading data
@@ -45,6 +60,7 @@ const Data = ({ data, title }) => {
           </h1>
           <div className="flex justify-center items-center flex-wrap gap-20">
             {movies.map((item, index) => {
+              const addedToCart = isItemInCart(item.id);
               return (
                 <div className="w-48 h-80 space-y-2" key={index}>
                   <div className="w-48 h-72 border-2 rounded-xl shadow-lg overflow-hidden">
@@ -58,11 +74,11 @@ const Data = ({ data, title }) => {
                     />
                   </div>
                   <div className="w-full flex justify-around items-center">
-                    <button className="w-3/4 px-2 py-1 border-2 bg-yellow-400 hover:bg-yellow-600 rounded-xl font-semibold text-sm ">
-                      Add To Favorite
+                    <button className="w-3/4 px-2 py-1 border-2 bg-yellow-400 hover:bg-yellow-600 rounded-xl font-semibold text-sm " onClick={() => addToCart(item)}>
+                    {addedToCart ? "ADDED" : "Add to Favorites"}
                     </button>
                     <span className="text-white h-full text-2xl cursor-pointer">
-                      <FaRegHeart />
+                      {addedToCart ? <FaHeart className="text-red-600"/> : <FaRegHeart />}
                     </span>
                   </div>
                 </div>
