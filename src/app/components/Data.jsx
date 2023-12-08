@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaRegHeart, FaHeart } from "react-icons/fa6";
 import Spinner from "./Spinner";
+import { mulish } from "../fonts";
 
 const Data = ({ data, title }) => {
   const [movies, setMovies] = useState([]);
@@ -39,7 +40,7 @@ const Data = ({ data, title }) => {
         <Spinner />
       ) : (
         <div className="space-y-6">
-          <h1 className="text-white w-full text-center font-bold text-4xl">
+          <h1 className={`text-white w-full text-center font-bold text-4xl ${mulish.className}`}>
             {title}
           </h1>
           <div className="flex justify-center items-center flex-wrap gap-20">
