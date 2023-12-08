@@ -4,8 +4,9 @@ import Image from "next/image";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import React, { useEffect, useRef, useState } from "react";
 import bgImage from "../../../public/background.jpg";
+import Link from "next/link";
 
-const Row = ({ title, fetchURL, rowID }) => {
+const Row = ({ title, fetchURL, rowID, link }) => {
   const [movies, setMovies] = useState([]);
   const scrollContainer = useRef();
 
@@ -44,9 +45,14 @@ const Row = ({ title, fetchURL, rowID }) => {
       </div>
       <div className="absolute w-full h-full top-0 left-0 bg-black/80 z-10"></div>
       <div className="z-30 relative">
-        <h2 className="text-white font-bold text-xl md:text-3xl px-3 py-1">
-          {title}
-        </h2>
+        <div className="w-full flex justify-between items-center text-white font-bold text-xl md:text-3xl py-1 px-8">
+          <h2>
+            {title}
+          </h2>
+            <Link href={link} className="text-sm hover:text-yellow-400">
+              View All
+            </Link>
+        </div>
         <div className="flex relative items-center">
           <MdChevronLeft
             size={40}
@@ -61,7 +67,10 @@ const Row = ({ title, fetchURL, rowID }) => {
           >
             {movies.map((item, id) => {
               return (
-                <div className="w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] inline-block relative p-2 z-30" key={id}>
+                <div
+                  className="w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] inline-block relative p-2 z-30"
+                  key={id}
+                >
                   <div className="w-44 h-72 overflow-hidden border-2 rounded-xl">
                     {/* Movie Poster Image */}
                     <Image
@@ -70,7 +79,7 @@ const Row = ({ title, fetchURL, rowID }) => {
                       width={1}
                       height={1}
                       sizes="100%"
-                      className="w-full h-full cursor-pointer"
+                      className="w-full h-full"
                     />
                   </div>
                 </div>

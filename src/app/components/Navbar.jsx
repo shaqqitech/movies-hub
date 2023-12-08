@@ -52,12 +52,12 @@ const Navbar = () => {
           {isOpen && (
             <ul
               ref={menuRef}
-              className="absolute top-8 right-3 w-fit border-2 py-2 px-3 text-sm font-semibold rounded-lg space-y-3 bg-white text-black flex flex-col"
+              className="absolute top-8 right-3 w-28 py-2 px-3 text-sm font-semibold rounded-lg space-y-3 bg-yellow-500 text-black flex flex-col"
             >
-              <Link href={"/"}>Home</Link>
-              <Link href={"/"}>About</Link>
-              <Link href={"/"}>Contact</Link>
-              <Link href={"/"}>Feedback</Link>
+              <Link href={"/popular"} className="hover:text-yellow-700">Popular</Link>
+              <Link href={"/top-rated"} className="hover:text-yellow-700">Top Rated</Link>
+              <Link href={"/trending"} className="hover:text-yellow-700">Trending</Link>
+              <Link href={"/upcoming"} className="hover:text-yellow-700">Up Coming</Link>
             </ul>
           )}
         </p>
