@@ -53,4 +53,14 @@ export const top_rated_tv = {
   route: 'top-rated-tv'
 };
 
-
+export const category = [
+  popular.title,
+  top_rated.title,
+  trending.title,
+  upcoming.title,
+  now_playing.title,
+  popularTv.title,
+  airing_today.title,
+  playing_on_tv.title,
+  top_rated_tv.title
+];

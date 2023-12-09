@@ -8,6 +8,7 @@ import { mulish } from "../fonts";
 import { useDispatch, useSelector } from "react-redux";
 import { add, remove } from "@/store/cartSlice";
 import Link from "next/link";
+import Categories from "./Categories";
 
 const Data = ({ data, title, route }) => {
   const [movies, setMovies] = useState([]);
@@ -64,6 +65,7 @@ const Data = ({ data, title, route }) => {
         <Spinner />
       ) : (
         <div className="space-y-6">
+          {/* <Categories /> */}
           <h1
             className={`text-white w-full text-center font-bold text-4xl ${mulish.className}`}
           >
