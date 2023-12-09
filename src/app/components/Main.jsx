@@ -70,7 +70,7 @@ const Main = () => {
             width={1}
             height={1}
             sizes="100%"
-            className="w-full h-full animate-pulse object-cover ease-in-out transition-all duration-300 delay-300 transform"
+            className="w-full h-full object-cover"
           />
         )}
       </div>
