@@ -53,9 +53,9 @@ const Navbar = () => {
           <FaHeart />
         </Link>
         {/* Profile Logo */}
-        <p className="cursor-pointer hover:text-yellow-500">
+        <Link href={'/signup'} className="cursor-pointer hover:text-yellow-500">
           <IoPersonCircleSharp />
-        </p>
+        </Link>
         {/* Menubar */}
         <p className="cursor-pointer relative hover:text-yellow-500" onClick={handleOnClick}>
           {isOpen ? <RxCross2 /> : <RiMenu3Line />}
