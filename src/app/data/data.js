@@ -1,17 +1,5 @@
 import requests from "@/Requests";
 
-export const trending = {
-  request: requests.requestTrending,
-  title: 'Trending',
-  route: 'trending'
-};
-
-export const upcoming = {
-  request: requests.requestUpComing,
-  title: 'Up Coming',
-  route: 'upcoming'
-};
-
 export const popular = {
   request: requests.requestPopular,
   title: 'Popular',
@@ -23,3 +11,46 @@ export const top_rated = {
   title: 'Top Rated',
   route: 'top-rated'
 };
+export const trending = {
+  request: requests.requestTrending,
+  title: 'Trending',
+  route: 'trending'
+};
+
+export const upcoming = {
+  request: requests.requestUpcoming,
+  title: 'Up Coming',
+  route: 'upcoming'
+};
+
+export const now_playing = {
+  request: requests.requestNowPlaying,
+  title: 'Now Playing',
+  route: 'now-playing'
+};
+
+export const popularTv = {
+  request: requests.requestPopularTV,
+  title: 'Popular TV',
+  route: 'popular-tv'
+};
+
+export const airing_today = {
+  request: requests.requestAiringToday,
+  title: 'Airing Today',
+  route: 'airing-today'
+};
+
+export const playing_on_tv = {
+  request: requests.requestNowPlayingTV,
+  title: 'Playing on TV',
+  route: 'playing-on-tv'
+};
+
+export const top_rated_tv = {
+  request: requests.requestTopRatedTV,
+  title: 'Top Rated TV',
+  route: 'top-rated-tv'
+};
+
+
