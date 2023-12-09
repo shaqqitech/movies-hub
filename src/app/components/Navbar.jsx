@@ -65,7 +65,6 @@ const Navbar = () => {
               className="absolute top-8 right-3 w-32 py-2 px-3 text-sm font-semibold rounded-lg space-y-3 bg-yellow-500 text-black flex flex-col"
             >
               <Link href={"/airing-today"} className="hover:text-yellow-700">Airing Today</Link>
-              <Link href={"/latest"} className="hover:text-yellow-700">Latest</Link>
               <Link href={"/now-playing"} className="hover:text-yellow-700">Now Playing</Link>
               <Link href={"/popular"} className="hover:text-yellow-700">Popular</Link>
               <Link href={"/playing-on-tv"} className="hover:text-yellow-700">Playing On Tv</Link>
