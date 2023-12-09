@@ -6,7 +6,7 @@ import { popular } from '../data/data'
 const Popular = () => {
   return (
     <div>
-      <Data data={popular.request} title={popular.title}/>
+      <Data data={popular.request} title={popular.title} route={popular.route}/>
     </div>
   )
 }

@@ -54,10 +54,7 @@ const Data = ({ data, title }) => {
 
   return (
     <main className="w-screen min-h-screen  px-10 py-28 relative">
-      <div className="absolute top-0 left-0 w-screen h-screen -z-20">
-        <Image src={BgImage} alt="bg image" className="w-full h-full" />
-        <div className="absolute w-screen h-screen top-0 left-0 bg-black/80"></div>
-      </div>
+        <div className="absolute w-screen -z-20 h-full top-0 left-0 bg-gradient-to-r from-gray-950 via-gray-900 to-gray-950"></div> 
       {loading ? (
         <Spinner />
       ) : (

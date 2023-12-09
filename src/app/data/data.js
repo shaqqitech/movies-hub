@@ -2,20 +2,24 @@ import requests from "@/Requests";
 
 export const trending = {
   request: requests.requestTrending,
-  title: 'Trending'
+  title: 'Trending',
+  route: 'trending'
 };
 
 export const upcoming = {
   request: requests.requestUpComing,
-  title: 'Up Coming'
+  title: 'Up Coming',
+  route: 'upcoming'
 };
 
 export const popular = {
   request: requests.requestPopular,
-  title: 'Popular'
+  title: 'Popular',
+  route: 'popular'
 };
 
 export const top_rated = {
   request: requests.requestTopRated,
-  title: 'Top Rated'
+  title: 'Top Rated',
+  route: 'top-rated'
 };

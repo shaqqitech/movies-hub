@@ -6,7 +6,7 @@ import { upcoming } from '../data/data'
 const UpComing = () => {
   return (
     <div>
-      <Data data={upcoming.request} title={upcoming.title}/>
+      <Data data={upcoming.request} title={upcoming.title} route={upcoming.route}/>
     </div>
   )
 }
