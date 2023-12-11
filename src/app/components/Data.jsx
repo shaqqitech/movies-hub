@@ -8,7 +8,6 @@ import { mulish } from "../fonts";
 import { useDispatch, useSelector } from "react-redux";
 import { add, remove } from "@/store/cartSlice";
 import Link from "next/link";
-import Categories from "./Categories";
 
 const Data = ({ data, title, route }) => {
   const [movies, setMovies] = useState([]);
